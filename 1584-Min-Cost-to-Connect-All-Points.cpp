@@ -1,46 +1,49 @@
 class Solution {
 public:
-    typedef pair<int,pair<int,int>> p;
-    int minCostConnectPoints(vector<vector<int>>& points) {
-        int n=points.size();
-        map<pair<int,int>,vector<vector<int>>>adj;
-        map<pair<int,int>,bool>inMst;
-        for(auto & point:points){
-            int x=point[0];
-            int y=point[1];
-            inMst[{x,y}]=false;
-            for(auto & p:points){
-                int x_=p[0];
-                int y_=p[1];
-                int dist=abs(x-x_)+abs(y-y_);
-                adj[{x,y}].push_back({x_,y_,dist});
-                adj[{x_,y_}].push_back({x,y,dist});
-            }
-        }
+    typedef pair<int,int> p;
+    int primsAlgo(vector<vector<p>>& adj,int V){
+        vector<bool>inMst(V,false);
         priority_queue<p,vector<p>,greater<p>>pq;
-        auto & c=points[0];
-        pq.push({0,{c[0],c[1]}});
-        int cost=0;
+        pq.push({0,0});
+        int sum=0;
         while(!pq.empty()){
-            auto & a=pq.top();
+            auto p=pq.top();
             pq.pop();
-            int weight=a.first;
-            auto & coord=a.second;
-            int x=coord.first;
-            int y=coord.second;
-            if(inMst[coord]) continue;
-            inMst[coord]=true;
-            cost+=weight;
-            for(auto & b:adj[coord]){
-                int x_=b[0];
-                int y_=b[1];
-                int dist=b[2];
-                if(!inMst[{x_,y_}]){
-                    pq.push({dist,{x_,y_}});
+            int wt=p.first;
+            int node=p.second;
+
+            if(inMst[node]) continue;
+            inMst[node]=true;
+            sum+=wt;
+
+            for(auto & tmp:adj[node]){
+                int neigh=tmp.first;
+                int neigh_wt=tmp.second;
+                if(!inMst[neigh]){
+                    pq.push({neigh_wt,neigh});
                 }
             }
         }
+        return sum;
+    }
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        int n=points.size();
+        vector<vector<p>>adj(n);
+        vector<bool>inMst(n,false);
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                int x1=points[i][0];
+                int y1=points[i][1];
 
-     return cost;
+                int x2=points[j][0];
+                int y2=points[j][1];
+
+                int d=abs(x2-x1)+abs(y2-y1);
+
+                adj[i].push_back({j,d});
+                adj[j].push_back({i,d});
+            }
+        }
+        return primsAlgo(adj,n);
     }
 };
