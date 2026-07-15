@@ -1,10 +1,10 @@
 class Solution {
 public:
     int minimumDiameterAfterMerge(vector<vector<int>>& edges1, vector<vector<int>>& edges2) {
-        int n=edges1.size();
-        int m=edges2.size();
-        vector<vector<int>>adj1(n+1);
-        vector<vector<int>>adj2(m+1);
+        int n=edges1.size()+1;
+        int m=edges2.size()+1;
+        vector<vector<int>>adj1(n);
+        vector<vector<int>>adj2(m);
 
         for(auto &edge:edges1){
             int u=edge[0];
@@ -40,8 +40,8 @@ public:
         visited[source]=true;
 
         while(!que.empty()){
-            int n=que.size();
-            while(n--){
+            int sz=que.size();
+            while(sz--){
                 farthestNode=que.front();
                 que.pop();
                 for(int v:adj[farthestNode]){
