@@ -5,9 +5,9 @@ public:
         if(i>=n)return 0;
 
         if(dp[i]!=-1)return dp[i];
-        int rob =nums[i]+solve(nums,i+2,n);
-        int steal=solve(nums,i+1,n);
-        return dp[i]=max(rob,steal);
+        int steal =nums[i]+solve(nums,i+2,n);
+        int skip=solve(nums,i+1,n);
+        return dp[i]=max(steal,skip);
     }
     int rob(vector<int>& nums) {
         int n=nums.size();
