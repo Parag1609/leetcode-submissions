@@ -24,10 +24,10 @@ public:
         return solve(0,true,nums);
     }
 };
-*/
+
 class Solution {
 public:
-    
+    //bottom-up
     long long maxAlternatingSum(vector<int>& nums) {
         int n=nums.size();
         vector<vector<long long>>dp(n,vector<long long>(2,-1));
@@ -40,5 +40,25 @@ public:
             dp[i][1]=max(dp[i-1][1],dp[i-1][0]-nums[i]);
         }
         return dp[n-1][0];
+    }
+};
+*/
+class Solution {
+public:
+    //constant-space
+    long long maxAlternatingSum(vector<int>& nums) {
+        int n=nums.size();
+        
+        long long maxeven=nums[0];
+        long long maxodd=0;
+
+        for(int i=1;i<n;i++){
+            long long nexteven=max(maxeven,maxodd+nums[i]);
+            long long nextodd=max(maxodd,maxeven-nums[i]);
+
+            maxeven=nexteven;
+            maxodd=nextodd;
+        }
+        return maxeven;
     }
 };
