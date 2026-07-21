@@ -1,4 +1,4 @@
-class Solution {
+/*class Solution {
 public:
     int longestStrChain(vector<string>& words) {
      sort(words.begin(),words.end(),[](const string& a,const string& b){
@@ -23,5 +23,40 @@ public:
         lchain=max(lchain,dp[i]);
     }
         return lchain;
+    }
+};
+*/
+// memoization
+class Solution {
+public:
+    vector<vector<int>>dp;
+    int solve(vector<string>& words,int idx,int previdx){
+        if(idx>=words.size())return 0;
+
+        if(dp[idx][previdx+1]!=-1)return dp[idx][previdx+1];
+
+        int take=0;
+        if(previdx==-1|| words[idx].length()-words[previdx].length()==1){
+            string s=words[idx];
+            for(int k=0;k<words[idx].length();k++){
+                string temp=s;
+                temp.erase(k,1);
+                if(previdx==-1||temp==words[previdx]){
+                    take=1+solve(words,idx+1,idx);
+                    break;
+                }
+                
+            }
+        }
+        int skip=solve(words,idx+1,previdx);
+        return dp[idx][previdx+1]=max(take,skip);
+    }
+    int longestStrChain(vector<string>& words) {
+        sort(words.begin(),words.end(),[](const string& a,const string& b){
+            return a.length()<b.length();
+        });   
+        int n=words.size();
+        dp.assign(n,vector<int>(n+1,-1));
+        return solve(words,0,-1);
     }
 };
