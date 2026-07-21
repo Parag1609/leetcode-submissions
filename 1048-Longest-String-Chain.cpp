@@ -1,4 +1,5 @@
-/*class Solution {
+//bottom-up
+class Solution {
 public:
     int longestStrChain(vector<string>& words) {
      sort(words.begin(),words.end(),[](const string& a,const string& b){
@@ -25,7 +26,7 @@ public:
         return lchain;
     }
 };
-*/
+/*
 // memoization
 class Solution {
 public:
@@ -60,3 +61,4 @@ public:
         return solve(words,0,-1);
     }
 };
+*/
