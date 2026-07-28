@@ -13,7 +13,7 @@ public:
             }
         }
     }
-    int solve(string & s,int i,int n){
+    int solve(string & s,int n){
         
         for(int i=0;i<n;i++){
             if(isPalindrome[0][i])mincut[i]=0;
@@ -33,6 +33,6 @@ public:
         precomputegrid(s,n);
         mincut.assign(n,INT_MAX);
         mincut[0]=0;
-        return solve(s,0,n);
+        return solve(s,n);
     }
 };
