@@ -1,28 +1,25 @@
 class Solution {
 public:
     vector<vector<int>>dp;
-    int solve(vector<vector<int>>& obstacleGrid,int i,int j,int row,int col){
-        if(i>=row||j>=col)return 0;
-        if(obstacleGrid[i][j]==1)return dp[i][j]=0;
-
-        if(i==row-1 && j==col-1)return 1;
-
-        if(dp[i][j]!=-1)return dp[i][j];
-        
-        int right=solve(obstacleGrid,i,j+1,row,col);
-        int down=solve(obstacleGrid,i+1,j,row,col);
-        return dp[i][j]=right+down;
-
-        
-    }
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
         int row=obstacleGrid.size();
         int col=obstacleGrid[0].size();
 
-        dp.assign(row,vector<int>(col,-1));
-        
-        return solve(obstacleGrid,0,0,row,col);
+        dp.assign(row,vector<int>(col,0));
 
-
+        for(int i=0;i<row;i++){
+            if(obstacleGrid[i][0]==1)break;
+            dp[i][0]=1;
+        }
+        for(int j=0;j<col;j++){
+            if(obstacleGrid[0][j]==1)break;
+            dp[0][j]=1;
+        }
+        for(int i=1;i<row;i++){
+            for(int j=1;j<col;j++){
+                if(obstacleGrid[i][j]!=1)dp[i][j]=dp[i][j-1]+dp[i-1][j];
+            }
+        }
+        return dp[row-1][col-1];
     }
 };
