@@ -33,8 +33,27 @@ public:
     int maxProductPath(vector<vector<int>>& grid) {
         m=grid.size();
         n=grid[0].size();
-        dp.assign(m,vector<pair<ll,ll>>(n,{LLONG_MAX,LLONG_MIN}));
-        pair<ll,ll>p= solve(0,0,grid);
-        return p.second<0?-1:p.second % MOD;
+        dp.assign(m,vector<pair<ll,ll>>(n,{0,0}));
+        
+        dp[0][0]={grid[0][0],grid[0][0]};
+        for(int j=1;j<n;j++){
+            ll p=grid[0][j]*dp[0][j-1].first;
+            dp[0][j]={p,p};
+        }
+        for(int i=1;i<m;i++){
+            ll p=grid[i][0]*dp[i-1][0].first;
+            dp[i][0]={p,p};
+        }
+
+        for(int i=1;i<m;i++){
+            for(int j=1;j<n;j++){
+                ll p1=grid[i][j]*dp[i][j-1].first;
+                ll p2=grid[i][j]*dp[i][j-1].second;
+                ll p3=grid[i][j]*dp[i-1][j].first;
+                ll p4=grid[i][j]*dp[i-1][j].second;
+                dp[i][j]={min({p1,p2,p3,p4}),max({p1,p2,p3,p4})};
+            }
+        }
+        return dp[m-1][n-1].second<0?-1:dp[m-1][n-1].second %MOD;
     }
 };
