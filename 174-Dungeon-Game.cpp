@@ -31,7 +31,7 @@ public:
     return minhealth;
 
     }
-};*/
+};
 class Solution {
 public:
     int m,n;
@@ -55,5 +55,28 @@ public:
         dp.assign(m,vector<int>(n,-1));
         return solve(0,0,dungeon);
        
+    }
+};
+*/
+class Solution {
+public:
+    int m,n;
+    vector<vector<int>>dp;
+    
+    int calculateMinimumHP(vector<vector<int>>& dungeon) {
+        m=dungeon.size();
+        n=dungeon[0].size();
+        dp.assign(m+1,vector<int>(n+1,1e9));
+        
+        dp[m-1][n]=1;
+        dp[m][n-1]=1;
+
+        for(int i=m-1;i>=0;i--){
+            for(int j=n-1;j>=0;j--){
+                int next_hp_req=min(dp[i+1][j],dp[i][j+1]);
+                dp[i][j]=max(1,next_hp_req-dungeon[i][j]);
+            }
+        }
+       return dp[0][0];
     }
 };
