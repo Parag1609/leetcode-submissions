@@ -1,17 +1,24 @@
 class Solution {
 public:
     int n;
-    vector<vector<int>>dp;
-    bool solveSubsetSum(int n, vector<int>& nums ,int target_sum){
-        if(target_sum==0)return true;
-        if(n<0)return false;
-        if(dp[n][target_sum]!=-1)return dp[n][target_sum];
-        if(nums[n]>target_sum){
-            return dp[n][target_sum]=solveSubsetSum(n-1,nums,target_sum);
+    bool isSubsetSum(vector<int>& nums,int target){
+        vector<vector<bool>>dp(n+1,vector<bool>(target+1,false));
+
+        for(int i=0;i<=n;i++){
+            dp[i][0]=true;
         }
-        bool take=solveSubsetSum(n-1,nums,target_sum-nums[n]);
-        bool skip=solveSubsetSum(n-1,nums,target_sum);
-        return dp[n][target_sum]=take||skip;
+        for(int i=1;i<=n;i++){
+            for(int t=1;t<=target;t++){
+                if(nums[i-1]>t){
+                    dp[i][t]=dp[i-1][t];
+                }else{
+                    bool include=dp[i-1][t-nums[i-1]];
+                    bool exclude=dp[i-1][t];
+                    dp[i][t]=include||exclude;
+                }
+            }
+        }
+        return dp[n][target];
     }
     bool canPartition(vector<int>& nums) {
         n=nums.size();
@@ -21,7 +28,6 @@ public:
         }
         if(sum%2!=0)return false;
         int target_sum=sum/2;
-        dp.assign(n,vector<int>(target_sum+1,-1));
-        return solveSubsetSum(n-1,nums,target_sum);
+        return isSubsetSum(nums,target_sum);
     }
 };
