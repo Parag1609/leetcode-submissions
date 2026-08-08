@@ -1,5 +1,29 @@
 class Solution {
 public:
+    
+    int maxFrequency(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        int maxfreq = 0;
+        int left=0,right=0;
+        long long currsum=0;
+        while(right<n){
+            currsum+=nums[right];
+
+            while(1LL*(right-left+1)*nums[right] - currsum>k){
+                currsum-=nums[left];
+                left++;
+            }
+            maxfreq=max(maxfreq,right-left+1);
+            right++;
+        }
+        return maxfreq;
+    }
+};
+/*
+//binary search
+class Solution {
+public:
     int bsearch(int target_idx, vector<int>& nums,vector<long long> &prefix, int k) {
         int l = 0, r = target_idx;
         int possible_idx = -1;
@@ -34,3 +58,4 @@ public:
         return result;
     }
 };
+*/
