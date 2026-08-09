@@ -3,15 +3,22 @@ public:
     int numSubarraysWithSum(vector<int>& nums, int goal) {
         int n=nums.size();
         int count=0;
-        unordered_map<int,int>mp;
-        mp[0]=1;
-        int prefix=0;
-        for(int i=0;i<n;i++){
-            prefix+=nums[i];
-            if(mp.find(prefix-goal)!=mp.end()){
-                count+=mp[prefix-goal];
+        
+        int i=0,j=0;
+        int sum=0;
+        int countzeros=0;
+        while(j<n){
+            sum+=nums[j];
+            while(i<=j && (sum>goal || (i<j && nums[i]==0))){
+                if(nums[i]==0)countzeros++;
+                else countzeros=0;
+                sum-=nums[i];
+                i++;
             }
-            mp[prefix]++;
+            if(i<=j && sum==goal){
+                count+=1+countzeros;
+            }
+            j++;
         }
         return count;
     }
