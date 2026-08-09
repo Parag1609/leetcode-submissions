@@ -1,5 +1,30 @@
 class Solution {
 public:
+    int atMost(vector<int>& nums, int goal){
+        if (goal < 0) return 0;
+        int n=nums.size();
+        int i=0,j=0,count=0,currsum=0;
+
+        while(j<n){
+            currsum+=nums[j];
+            while(currsum>goal){
+                currsum-=nums[i];
+                i++;
+            }
+            count+=j-i+1;
+            j++;
+        }
+        return count;
+    }
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        int n=nums.size();
+        
+        
+        return atMost(nums,goal)-atMost(nums,goal-1);
+    }
+};
+/*class Solution {
+public:
     int numSubarraysWithSum(vector<int>& nums, int goal) {
         int n=nums.size();
         int count=0;
@@ -23,3 +48,4 @@ public:
         return count;
     }
 };
+*/
