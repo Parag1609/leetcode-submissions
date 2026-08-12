@@ -19,8 +19,7 @@ public:
             }
             mini_monotonic.push_back(j);
 
-            while (!maxi_monotonic.empty() && !mini_monotonic.empty() &&
-                   nums[maxi_monotonic.front()] - nums[mini_monotonic.front()] > limit) {
+            while (nums[maxi_monotonic.front()] - nums[mini_monotonic.front()] > limit) {
                 if (i == maxi_monotonic.front()) {
                     maxi_monotonic.pop_front();
                 }
