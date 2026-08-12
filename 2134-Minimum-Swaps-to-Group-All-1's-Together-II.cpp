@@ -14,7 +14,7 @@ public:
                 if(nums[i%n]==1)currones--;
                 i++;
             }
-            minswaps=min(minswaps,totalones-currones);
+            if(j - i + 1 == totalones)minswaps=min(minswaps,totalones-currones);
         }
         return minswaps;
     }
