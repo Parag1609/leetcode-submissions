@@ -12,7 +12,7 @@ public:
         }
         while(l<=r){
             if(nums[l]+nums[r]<=target){
-                result=(result%M +power[r-l]%M)%M;
+                result=(result%M +power[r-l])%M;
                 l++;
             }
             else{
