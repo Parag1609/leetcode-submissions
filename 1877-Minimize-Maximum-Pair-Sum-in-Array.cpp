@@ -5,7 +5,7 @@ public:
         int n=nums.size();
         int l=0,r=n-1;
         int maxsum=0;
-        while(l<=r){
+        while(l<r){
             maxsum=max(maxsum,nums[l++]+nums[r--]);
         }
         return maxsum;
