@@ -11,12 +11,18 @@ public:
           }
           if(l<r){
             reverse(s.begin()+l,s.begin()+r);
-            s[r]=' ';
-            r++;
-            l=r;
+           if(r<n){
+               s[r]=' ';
+                r++;
+                l=r;
+           } 
           }
         }
-     s.erase(s.begin()+r-1,s.end());
+      if (r > 0 && s[r - 1] == ' ') {
+            s.erase(s.begin() + r - 1, s.end());
+        } else {
+            s.erase(s.begin() + r, s.end());
+        }
      return s;
     }
 };
